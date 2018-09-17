@@ -1,0 +1,17 @@
+{
+  "name": "mtnExchangeBot",
+  "version": "1.0.0",
+  "description": "]",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "firebase": "^5.5.0",
+    "firebase-admin": "^6.0.0",
+    "node-telegram-bot-api": "^0.30.0",
+    "open-graph-scraper": "^3.5.1"
+  }
+}
