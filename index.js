@@ -51,7 +51,7 @@ bot.on("callback_query" ,  (callbackQuery) => {
 
    
     
-    bot.sendMessage(message.chat.id , convertedRate.toFixed(2))
+    bot.sendMessage(message.chat.id , "R "+ convertedRate.toFixed(2))
   })
   .catch(error => {
     bot.sendMessage(message.chat.id ,"Please try again there has been an error")
@@ -67,11 +67,43 @@ bot.onText(/\/quote (.+)/ , (msg , match) => {
   .then(response =>{
     const quotes = Object.entries(response.data.quotes) 
     const [pair,rate] = quotes.find(quote => {
-      const [pair,rate] = quote  
+      const [pair,rate] = quote 
+        if (quotePair === 'ZAREUR' ){
+          return pair === 'USDEUR'
+        }else if(quotePair === 'ZARJPY'){
+          return pair === 'USDJPY'
+        }else if (quotePair === 'ZARGBP'){
+          return pair === 'USDGBP'
+        }else if(quotePair === 'ZARUSD'){
+          return pair === 'USDZAR'
+        }else{
+          return null
+        }
+        
       
-        return pair === quotePair
+        
     })
-    bot.sendMessage(msg .chat.id , rate)
+
+    const [basePair , baseRate] = quotes.find(quote => {
+      const [basePair , baseRate] = quote
+      return basePair === 'USDZAR'
+    })
+
+    let convertedRate
+
+    if (pair != null) {
+      if (quotePair != 'ZARUSD') {
+        convertedRate = baseRate / rate
+      } else {
+        convertedRate = rate
+      }
+  
+      bot.sendMessage(msg.chat.id ,"R "+ convertedRate.toFixed(2))
+    } else {
+      bot.sendMessage(msg.chat.id ,"Did you mean one of the following codes: ZARUSD , ZAREUR , ZARJPY , ZARGBP")
+    }
+
+    
   })
   .catch(error => {
     bot.sendMessage(message.chat.id ,"Please try again there has been an error")
